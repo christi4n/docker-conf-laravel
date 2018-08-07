@@ -28,6 +28,18 @@ services:
     depends_on:
       - app
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8181:80"
+    links:
+      - "database"
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_USER: ltcuser
+      MYSQL_PASSWORD: FKU26enIMnAUUg
+      MYSQL_ROOT_PASSWORD: secret
+
   # The Database
   database:
     image: mysql:5.7
@@ -35,12 +47,12 @@ services:
       - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_USER=mydb_user
-      - MYSQL_PASSWORD=mydb_passwd
-      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=ltcuser
+      - MYSQL_PASSWORD=FKU26enIMnAUUg
+      - MYSQL_DATABASE=ltcapidb
     ports:
         - "33061:3306"
-    container_name: mysql1
+    container_name: mysqlappcom
 
 volumes:
   dbdata:
