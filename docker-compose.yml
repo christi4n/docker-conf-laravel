@@ -27,6 +27,15 @@ services:
       - app
     depends_on:
       - app
+      - memcached
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - '11211:11211'
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+    container_name: memcached
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -36,8 +45,8 @@ services:
       - "database"
     environment:
       PMA_ARBITRARY: 1
-      MYSQL_USER: ltcuser
-      MYSQL_PASSWORD: FKU26enIMnAUUg
+      MYSQL_USER: user
+      MYSQL_PASSWORD: mypassword
       MYSQL_ROOT_PASSWORD: secret
 
   # The Database
@@ -47,12 +56,12 @@ services:
       - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_USER=ltcuser
-      - MYSQL_PASSWORD=FKU26enIMnAUUg
-      - MYSQL_DATABASE=ltcapidb
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_DATABASE=mydb
     ports:
         - "33061:3306"
-    container_name: mysqlappcom
+    container_name: db_mysql
 
 volumes:
   dbdata:
